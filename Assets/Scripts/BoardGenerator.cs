@@ -1,18 +1,23 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BoardGenerator : MonoBehaviour
 {
     [SerializeField]
-    private GameTiles tilePrefab;
+    private GameTile tilePrefab;
     [SerializeField]
     private int size = 24;
     [SerializeField]
     private int numberOfStarts = 8;
 
-    private GameTiles[] tiles;
+    private GameTile[] tiles;
 
+    private void Start()
+    {
+       // tilePrefab = Resources.Load("GameTile",typeof(GameTile)) as GameTile;
+        
+    }
     private void Awake()
     {
 
@@ -23,7 +28,7 @@ public class BoardGenerator : MonoBehaviour
             //size = size;
         }
 
-        tiles = new GameTiles[size * size];
+        tiles = new GameTile[size * size];
 
         // Large and possibly incorrect assignment which is supposed to move the board to be centred in the screen as it's made
         GetComponent<RectTransform>().anchoredPosition = new Vector2(
@@ -44,6 +49,7 @@ public class BoardGenerator : MonoBehaviour
         }
 
     }
+
     /// <summary>
     /// Creates a gameTile and adds it to tiles[]
     /// </summary>
@@ -52,7 +58,7 @@ public class BoardGenerator : MonoBehaviour
     /// <param name="i">Index of tile in tiles[]</param>
     private void CreateTile(int x, int y, int i)
     {
-        GameTiles tile = Instantiate(tilePrefab, transform);
+        GameTile tile = Instantiate(tilePrefab, transform);
         if (x > 0)
         {
             tile.SetNeighbor(Directions.west, tiles[i - 1]);
@@ -94,7 +100,7 @@ public class BoardGenerator : MonoBehaviour
                 if (tiles.Length == 0)
                 { return; }
 
-                GameTiles tile = tiles[Mathf.Clamp(index + i + (j * size),
+                GameTile tile = tiles[Mathf.Clamp(index + i + (j * size),
                     0,
                     tiles.Length - 1)];
                 tile.Mode = tile.Mode.Greater(TileMode.quarter);
@@ -106,7 +112,7 @@ public class BoardGenerator : MonoBehaviour
         {
             for (int j = -1; j <= 1; j++)
             {
-                GameTiles tile = tiles[Mathf.Clamp(index + i + (j * size),
+                GameTile tile = tiles[Mathf.Clamp(index + i + (j * size),
                     0,
                     tiles.Length - 1)];
                 tile.Mode = tile.Mode.Greater(TileMode.half);
@@ -125,11 +131,4 @@ public class BoardGenerator : MonoBehaviour
     {
         GameInfo.Scanning = !GameInfo.Scanning;
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-  
 }

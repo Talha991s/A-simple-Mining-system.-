@@ -1,8 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameInfo : MonoBehaviour
+public static class GameInfo 
 {
     private static int score = 0;
     private static int scans = 6;
@@ -16,12 +16,11 @@ public class GameInfo : MonoBehaviour
 
     private static string[] tips =
     {
-
         "You can use the toggle at the bottm right to switch between extraction and scan mode.",                   //0
         "Scanning exposes the surrounding tiles as well.",                                                      //1
         "When you extract you get the points of the tile, but it reduces the value of the surrounding tiles.",  //2
         "You're out of scans, you can only extract now!",                                                       //3
-        "You're out of extractions! That's the game."
+        "You're out of extractions! That's the game."                                                           //4
     };
 
     public static int Score

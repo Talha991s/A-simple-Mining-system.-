@@ -1,10 +1,12 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class TextUpdater : MonoBehaviour
 {
+
     private GameObject gameOverPanel;
 
     private Toggle toggleBox;
@@ -13,22 +15,21 @@ public class TextUpdater : MonoBehaviour
     private Text scoreText;
     private Text extractionsText;
     private Text tipsText;
-
-
     // Start is called before the first frame update
     void Start()
     {
-        toggleBox = GameObject.Find("Toggle").GetComponent<Toggle>();
+        toggleBox = GameObject.Find("ScanningToggle").GetComponent<Toggle>();
 
         toggleText = GameObject.Find("Label").GetComponent<Text>();
 
-        scansText = GameObject.Find("Scan").GetComponent<Text>();
+        scansText = GameObject.Find("ScansText").GetComponent<Text>();
 
-        scoreText = GameObject.Find("Score").GetComponent<Text>();
+        scoreText = GameObject.Find("ScoreText").GetComponent<Text>();
 
-        extractionsText = GameObject.Find("Extract").GetComponent<Text>();
+        extractionsText = GameObject.Find("ExtractionText").GetComponent<Text>();
 
-        tipsText = GameObject.Find("tips").GetComponent<Text>();
+        tipsText = GameObject.Find("TipsText").GetComponent<Text>();
+       
     }
 
     // Update is called once per frame
@@ -36,9 +37,9 @@ public class TextUpdater : MonoBehaviour
     {
         toggleBox.isOn = GameInfo.Scanning;
         toggleText.text = toggleBox.isOn ? "Scanning" : "Extracting";
-        scansText.text = "Scan: " + GameInfo.Scans.ToString();
+        scansText.text = "Scans: " + GameInfo.Scans.ToString();
         scoreText.text = "Score: " + GameInfo.Score.ToString();
-        extractionsText.text = "Extract: " + GameInfo.Extractions.ToString();
+        extractionsText.text = "Extractions: " + GameInfo.Extractions.ToString();
         tipsText.text = GameInfo.Tip;
 
         if (!GameInfo.CanExtract)
@@ -48,7 +49,7 @@ public class TextUpdater : MonoBehaviour
 
             GameObject Canvas = GameObject.Find("Canvas");
 
-            gameOverPanel = Canvas.transform.Find("GameOverScreen").gameObject;
+            gameOverPanel = Canvas.transform.Find("GameOverPanel").gameObject;
             gameOverPanel.SetActive(true);
             Destroy(this);
         }

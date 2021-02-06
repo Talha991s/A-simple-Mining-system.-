@@ -1,8 +1,9 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// Possible directions for tile placement
 public enum Directions
 {
     north, //0
@@ -15,6 +16,7 @@ public enum Directions
     northwest, //7
 }
 
+// Extensions to the functionality of Directions enum
 public static class DirectionExtensions
 {
     public static Directions Opposite(this Directions direction)
@@ -23,6 +25,8 @@ public static class DirectionExtensions
     }
 }
 
+
+// Possible modes for Tiles
 public enum TileMode
 {
     minimal,
@@ -30,7 +34,7 @@ public enum TileMode
     half,
     maximum
 }
-
+// Extensions to the functionality of Directions enum
 public static class TileModeExtensions
 {
     public static TileMode Reduce(this TileMode mode)
@@ -71,22 +75,16 @@ public class TileInfo
     }
 }
 
-
 [RequireComponent(typeof(Image), typeof(Button), typeof(RectTransform))]
-
-public class GameTiles : MonoBehaviour
+public class GameTile : MonoBehaviour
 {
 
     public bool isScanned = false;
     public TileInfo Info = new TileInfo();
     public RectTransform rectTransform;
 
-    private TileMode mode;
-    private Image image;
-    private Button button;
-    //[SerializeField]
-    private GameTiles[] neighbors = new GameTiles[8];
 
+    // public property allows us to, when Mode is changed, also update Info
     public TileMode Mode
     {
         get { return mode; }
@@ -96,6 +94,13 @@ public class GameTiles : MonoBehaviour
             Info = new TileInfo(mode);
         }
     }
+
+
+    private TileMode mode;
+    private Image image;
+    private Button button;
+    //[SerializeField]
+    private GameTile[] neighbors = new GameTile[8];
 
     private void Awake()
     {
@@ -111,7 +116,7 @@ public class GameTiles : MonoBehaviour
             GameInfo.Scans--;
             isScanned = true;
             UpdateImage();
-            foreach (GameTiles tile in neighbors)
+            foreach (GameTile tile in neighbors)
             {
                 if (tile != null)
                 {
@@ -127,7 +132,7 @@ public class GameTiles : MonoBehaviour
             GameInfo.Score += Info.value;
             GameInfo.Extractions--;
 
-            foreach (GameTiles tile in neighbors)
+            foreach (GameTile tile in neighbors)
             {
                 if (tile != null)
                 {
@@ -150,13 +155,13 @@ public class GameTiles : MonoBehaviour
         }
     }
 
-    public void SetNeighbor(Directions direction, GameTiles tile)
+    public void SetNeighbor(Directions direction, GameTile tile)
     {
         neighbors[(int)direction] = tile;
         tile.neighbors[(int)direction.Opposite()] = this;
     }
 
-    public GameTiles GetNeighbor(Directions direction)
+    public GameTile GetNeighbor(Directions direction)
     {
         return neighbors[(int)direction];
     }
